@@ -1,12 +1,18 @@
+import os
 import requests
 import json
 import pandas as pd
 
 # Constants
 API_URL = "https://aihorde.net/api/v2/stats/text/models"
-USAGE_JSON = "RawModelUsageData.json"
-MODELS_CSV = "models.csv"
-OUTPUT_CSV = "models_updated.csv"
+
+# Directory where input and output files are stored
+USER_FILES_DIR = os.path.join(os.path.dirname(__file__), "user-files")
+os.makedirs(USER_FILES_DIR, exist_ok=True)
+
+USAGE_JSON = os.path.join(USER_FILES_DIR, "RawModelUsageData.json")
+MODELS_CSV = os.path.join(USER_FILES_DIR, "models.csv")
+OUTPUT_CSV = os.path.join(USER_FILES_DIR, "models_updated.csv")
 TOP_N = 25
 PERIOD_TAGS = {
     'day': 'daily_top25',
