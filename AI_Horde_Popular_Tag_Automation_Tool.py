@@ -37,6 +37,7 @@ for period, models in usage_data.items():
         records.append({'period': period, 'model': model_name, 'usage_count': count})
 
 df_usage = pd.DataFrame(records)
+df_usage.to_csv(os.path.join(USER_FILES_DIR, "usage_data.csv"), index=False)
 
 # Step 3: Determine top N models per period
 top_models = {}
