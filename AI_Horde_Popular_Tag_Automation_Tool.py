@@ -39,7 +39,33 @@ for period, models in usage_data.items():
 df_usage = pd.DataFrame(records)
 df_usage.to_csv(os.path.join(USER_FILES_DIR, "usage_data.csv"), index=False)
 
-# Convert usage_data.csv to usage_data.xlsx and do formatting here
+# Convert the usage data to an Excel workbook with one sheet per period
+usage_xlsx = os.path.join(USER_FILES_DIR, "usage_data.xlsx")
+with pd.ExcelWriter(usage_xlsx) as writer:
+    for period, group in df_usage.groupby("period"):
+        sheet = period.capitalize()
+        # Include headers when writing each sheet
+        group.drop(columns="period").to_excel(writer, index=False, sheet_name=sheet)
+
+# Format each sheet as a table once written
+from openpyxl import load_workbook
+from openpyxl.utils import get_column_letter
+from openpyxl.worksheet.table import Table, TableStyleInfo
+
+wb = load_workbook(usage_xlsx)
+for sheet in wb.sheetnames:
+    ws = wb[sheet]
+    max_row = ws.max_row
+    max_col = ws.max_column
+    end_col = get_column_letter(max_col)
+    table_ref = f"A1:{end_col}{max_row}"
+    table = Table(displayName=f"{sheet}Table", ref=table_ref)
+    style = TableStyleInfo(name="TableStyleMedium9", showFirstColumn=False,
+                           showLastColumn=False, showRowStripes=True, showColumnStripes=False)
+    table.tableStyleInfo = style
+    ws.add_table(table)
+
+wb.save(usage_xlsx)
 
 # Step 3: Determine top N models per period
 top_models = {}
