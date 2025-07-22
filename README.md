@@ -1,6 +1,6 @@
 # AI-Horde Popular Tag Automation Tool
 
-This project provides a small utility for retrieving popularity information about text models from the [AI Horde](https://aihorde.net/) API. It fetches usage statistics, writes them to CSV and Excel files, and normalizes model names using an optional whitelist.
+This project provides a small Python utility for retrieving popularity information about text models from the [AI&nbsp;Horde](https://aihorde.net/) API. It fetches usage statistics, writes them to CSV and Excel files, and normalises model names using an optional whitelist.
 
 The script performs the following steps:
 1. Fetch `/api/v2/stats/text/models` from the AI Horde API.
@@ -10,15 +10,24 @@ The script performs the following steps:
 5. Normalize model names using `models.csv` if provided.
 6. Save the cleaned tables back to `usage_data.xlsx`.
 
-## Usage
+## Quick start
 
-1. Install Python 3 and run `pip install -r requirements.txt`.
-2. Place your `models.csv` whitelist in the `user-files` directory.
-3. Run the tool:
+1. **Clone the repository** and create a virtual environment:
+
+   ```bash
+   python3 -m venv .venv
+   source .venv/bin/activate
+   pip install -r requirements.txt
+   ```
+
+2. (Optional) Place a `models.csv` whitelist in the `user-files` directory.
+3. **Run the script**:
+
    ```bash
    python AI_Horde_Popular_Tag_Automation_Tool.py
    ```
-4. After completion, `user-files` will contain `usage_data.csv`, `usage_data.xlsx` and `RawModelUsageData.json`.
+
+   The `user-files` folder will then contain `usage_data.csv`, `usage_data.xlsx` and `RawModelUsageData.json`.
 
 ## Diagram
 
@@ -33,3 +42,7 @@ graph TD
     G --> H[Format Excel tables]
     H --> I[Done]
 ```
+
+## Contributing
+
+Bug reports and pull requests are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for development guidelines.
