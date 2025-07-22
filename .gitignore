@@ -407,3 +407,4 @@ env
 user-files/*
 !user-files/.gitkeep
 !user-files/models.csv
+!user-files/README.md
