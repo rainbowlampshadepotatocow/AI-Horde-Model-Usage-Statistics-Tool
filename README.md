@@ -10,3 +10,12 @@ The script also creates `usage_data.xlsx` after fetching usage information.
 This workbook contains separate sheets named **Day**, **Month**, and **Total**,
 mirroring the structure of `text_models_tidy.xlsx` from the Examples folder.
 Each sheet is formatted as an Excel table for easier filtering and sorting.
+
+## Requirements:
+- Microsoft Excel
+- Python
+- run `pip install -r requirements.txt`
+    - Will install:
+        - requests  (for getting usage stats)
+        - pandas    (for performing magic on the data)
+        - openpyxl  (for writing to Excel)

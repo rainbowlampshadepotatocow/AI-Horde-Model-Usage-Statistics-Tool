@@ -23,6 +23,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AI_Horde_Popular_Tag_Automation_Tool.py" />
+    <Compile Include="Examples\Example Scripts\CleanCSV.py" />
+    <Compile Include="Examples\Example Scripts\ConvertJOSNtoCSV.py" />
+    <Compile Include="Examples\Example Scripts\PullHordeModelData.py" />
   </ItemGroup>
   <ItemGroup>
     <Interpreter Include="env\">
@@ -36,7 +39,20 @@
     </Interpreter>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Examples\Example Data\ModelData_cleaned_merged.xlsx" />
+    <Content Include="Examples\Example Data\models.csv" />
+    <Content Include="Examples\Example Data\RawModelUsageData.txt" />
+    <Content Include="Examples\Example Data\text_models_tidy.xlsx" />
+    <Content Include="README.md" />
     <Content Include="requirements.txt" />
+    <Content Include="user-files\.gitkeep" />
+    <Content Include="user-files\models.csv" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Examples\" />
+    <Folder Include="Examples\Example Data\" />
+    <Folder Include="Examples\Example Scripts\" />
+    <Folder Include="user-files\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

@@ -65,18 +65,35 @@ for sheet in wb.sheetnames:
     table.tableStyleInfo = style
     ws.add_table(table)
 
+# Auto-fit column widths for each sheet
+for sheet in wb.sheetnames:
+    ws = wb[sheet]
+    for col in ws.columns:
+        max_length = 0
+        col_letter = get_column_letter(col[0].column)
+        for cell in col:
+            try:
+                cell_length = len(str(cell.value)) if cell.value is not None else 0
+                if cell_length > max_length:
+                    max_length = cell_length
+            except Exception:
+                pass
+        adjusted_width = max_length + 2  # Add some padding
+        ws.column_dimensions[col_letter].width = adjusted_width
+
 wb.save(usage_xlsx)
 
-# Step 3: Determine top N models per period
-top_models = {}
-for period, group in df_usage.groupby('period'):
-    # Sort by usage and take top N
-    top_list = group.sort_values('usage_count', ascending=False)
-    top_models[period] = set(top_list.head(TOP_N)['model'].tolist())
-    print(f"Top {TOP_N} for {period}: {len(top_models[period])} models")
-
-
 ## STOP HERE FOR NOW ##
+## Below this are extra features that are broken, and I don't want them anyway ##
+# # Step 3: Determine top N models per period
+# top_models = {}
+# for period, group in df_usage.groupby('period'):
+#     # Sort by usage and take top N
+#     top_list = group.sort_values('usage_count', ascending=False)
+#     top_models[period] = set(top_list.head(TOP_N)['model'].tolist())
+#     print(f"Top {TOP_N} for {period}: {len(top_models[period])} models")
+
+
 # # Step 4: Load existing models whitelist
 # df_models = pd.read_csv(MODELS_CSV)
 # # Ensure tags column exists
