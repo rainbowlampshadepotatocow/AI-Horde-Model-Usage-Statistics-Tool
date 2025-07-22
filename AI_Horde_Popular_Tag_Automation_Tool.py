@@ -97,7 +97,7 @@ else:
 
 # Regex used elsewhere in the Horde tooling to strip quantization suffixes
 # from model names (e.g. "-Q4_K_M", "-QInt8", etc.)
-official_quant_regex = re.compile(r'-[a-zA-Z]+?Q(-[Ii]nt)?[0-9]([_-][a-zA-Z]+)*$', re.IGNORECASE)
+official_quant_regex = re.compile(r'[.,-][a-zA-Z0-9]+?-?Q(-[Ii]nt)?[2-9]{1,2}([_.-][0-9a-zA-Z]+)*$', re.IGNORECASE)
 
 # Additional pattern to strip other trailing tokens such as ".i1" or "-exl2"
 extra_suffix_regex = re.compile(r'(?i)([._-](?:iMat|iMatrix|i\d+|b\d+|c\d+|ch\d+|bpw|h\d+|exl\d+).*)$')
