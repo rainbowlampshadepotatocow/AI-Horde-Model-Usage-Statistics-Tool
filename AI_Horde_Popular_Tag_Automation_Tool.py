@@ -120,9 +120,11 @@ for sheet in wb.sheetnames:
     df = pd.read_excel(usage_xlsx, sheet_name=sheet)
     df['raw_short'] = df['model'].astype(str).str.split('/').str[-1]
     df['mapped'] = df['raw_short'].apply(map_to_whitelist)
+    df['whitelisted'] = df['mapped'].notnull()
     df['cleaned'] = df['raw_short'].apply(strip_quant)
     df['model'] = df.apply(lambda r: r['mapped'] if pd.notnull(r['mapped']) else r['cleaned'], axis=1)
-    df_merged = df.groupby('model', as_index=False)['usage_count'].sum()
+    df_merged = df.groupby('model', as_index=False).agg({'usage_count': 'sum', 'whitelisted': 'max'})
+    df_merged['whitelisted'] = df_merged['whitelisted'].apply(lambda x: 'T' if x else 'F')
     cleaned_dfs[sheet] = df_merged
 
 with pd.ExcelWriter(usage_xlsx, engine='openpyxl') as writer:
