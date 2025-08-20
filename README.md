@@ -1,6 +1,6 @@
 # AI-Horde Popular Tag Automation Tool
 
-This project provides a small Python utility for retrieving popularity information about text models from the [AI&nbsp;Horde](https://aihorde.net/) API. It fetches usage statistics, writes them to CSV and Excel files, and normalises model names using an optional whitelist.
+This project provides a small Python utility for retrieving popularity information about text models from the [AI Horde](https://aihorde.net/) API. It fetches usage statistics, writes them to CSV and Excel files, and normalises model names using an optional whitelist.
 
 The script performs the following steps:
 1. Fetch `/api/v2/stats/text/models` from the AI Horde API.
@@ -12,11 +12,17 @@ The script performs the following steps:
 
 ## Quick start
 
-1. **Clone the repository** and create a virtual environment:
-
+1. **Clone the repository** and create a virtual environment:  
+   Bash:
    ```bash
    python3 -m venv .venv
    source .venv/bin/activate
+   pip install -r requirements.txt
+   ```
+    PowerShell:
+   ```powershell
+   python -m venv .venv
+   .venv\Scripts\Activate.ps1
    pip install -r requirements.txt
    ```
 

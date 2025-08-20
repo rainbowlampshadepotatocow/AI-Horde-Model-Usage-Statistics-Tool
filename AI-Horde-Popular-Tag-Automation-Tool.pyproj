@@ -11,7 +11,7 @@
     <OutputPath>.</OutputPath>
     <Name>AI-Horde-Popular-Tag-Automation-Tool</Name>
     <RootNamespace>AI-Horde-Popular-Tag-Automation-Tool</RootNamespace>
-    <InterpreterId>MSBuild|env|$(MSBuildProjectFullPath)</InterpreterId>
+    <InterpreterId>MSBuild|.venv|$(MSBuildProjectFullPath)</InterpreterId>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -28,6 +28,15 @@
     <Compile Include="Examples\Example Scripts\PullHordeModelData.py" />
   </ItemGroup>
   <ItemGroup>
+    <Interpreter Include=".venv\">
+      <Id>.venv</Id>
+      <Version>3.13</Version>
+      <Description>.venv (Python 3.13)</Description>
+      <InterpreterPath>Scripts\python.exe</InterpreterPath>
+      <WindowsInterpreterPath>Scripts\pythonw.exe</WindowsInterpreterPath>
+      <PathEnvironmentVariable>PYTHONPATH</PathEnvironmentVariable>
+      <Architecture>X64</Architecture>
+    </Interpreter>
     <Interpreter Include="env\">
       <Id>env</Id>
       <Version>3.13</Version>
@@ -39,6 +48,7 @@
     </Interpreter>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="CONTRIBUTING.md" />
     <Content Include="Examples\Example Data\ModelData_cleaned_merged.xlsx" />
     <Content Include="Examples\Example Data\models.csv" />
     <Content Include="Examples\Example Data\RawModelUsageData.txt" />
@@ -47,6 +57,7 @@
     <Content Include="requirements.txt" />
     <Content Include="user-files\.gitkeep" />
     <Content Include="user-files\models.csv" />
+    <Content Include="user-files\README.md" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Examples\" />
