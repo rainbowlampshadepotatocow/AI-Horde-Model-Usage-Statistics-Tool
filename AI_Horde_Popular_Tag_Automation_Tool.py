@@ -40,6 +40,20 @@ def fetch_usage_data() -> Dict[str, Dict[str, int]]:
     return response.json()
 
 
+def sanitize_usage_data(data: Dict[str, Dict[str, int]]) -> Dict[str, Dict[str, int]]:
+    """Return *data* with invalid model names (empty / whitespace) removed."""
+
+    sanitized: Dict[str, Dict[str, int]] = {}
+    for period, models in data.items():
+        valid_models: Dict[str, int] = {}
+        for model_name, count in models.items():
+            if isinstance(model_name, str) and model_name.strip():
+                valid_models[model_name] = count
+        if valid_models:
+            sanitized[period] = valid_models
+    return sanitized
+
+
 def save_json(data: dict, path: str) -> None:
     """Save *data* as nicely formatted JSON to *path*."""
 
@@ -106,6 +120,10 @@ def clean_and_merge(path: str) -> None:
     extra_suffix_regex = re.compile(r"(?i)([._-](?:iMat|iMatrix|i\d+|b\d+|c\d+|ch\d+|bpw|h\d+|exl\d+).*)$")
 
     def strip_quant(name: str) -> str:
+        if not isinstance(name, str):
+            if pd.isna(name):
+                return ""
+            name = str(name)
         name = official_quant_regex.sub("", name)
         return extra_suffix_regex.sub("", name)
 
@@ -116,16 +134,20 @@ def clean_and_merge(path: str) -> None:
         model_short_map = {ms.lower(): ms for ms in models_df["model_short"]}
 
     def map_to_whitelist(raw_short: str) -> str | None:
-        raw_lower = raw_short.lower()
-        for short_lower, short_orig in model_short_map.items():
-            if raw_lower.endswith(short_lower):
-                return short_orig
-        return None
+        try:
+            raw_lower = raw_short.lower()
+            for short_lower, short_orig in model_short_map.items():
+                if raw_lower.endswith(short_lower):
+                    return short_orig
+            return None
+        except:
+            return None
 
     wb = load_workbook(path)
     cleaned_dfs = {}
     for sheet in wb.sheetnames:
         df = pd.read_excel(path, sheet_name=sheet)
+        df = df[df["model"].notna()].copy()
         df["raw_short"] = df["model"].astype(str).str.split("/").str[-1]
         df["mapped"] = df["raw_short"].apply(map_to_whitelist)
         df["whitelisted"] = df["mapped"].notnull()
@@ -150,6 +172,7 @@ def main() -> None:
 
     print(f"Fetching usage data from {API_URL}...")
     usage_data = fetch_usage_data()
+    usage_data = sanitize_usage_data(usage_data)
     save_json(usage_data, USAGE_JSON)
 
     df_usage = build_usage_df(usage_data)
